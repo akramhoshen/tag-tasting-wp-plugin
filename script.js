@@ -1,35 +1,58 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Function to show the specified tab
+    // show specified tab
     function showTab(tabId) {
         var tab = new bootstrap.Tab(document.getElementById(tabId + '-tab'));
         tab.show();
     }
 
-    // Function to update the preview
+    // update the preview
     function updatePreview() {
         const htmlContent = document.getElementById('htmlInput').value;
         const previewFrame = document.getElementById('previewFrame').contentWindow.document;
-        previewFrame.open();
-        previewFrame.write(htmlContent);
-        previewFrame.close();
+        const previewMessage = document.getElementById('previewMessage');
+
+        if (htmlContent.trim() === "") {
+            previewFrame.open();
+            previewFrame.write("");
+            previewFrame.close();
+            previewMessage.style.display = "block";
+        } else {
+            previewFrame.open();
+            previewFrame.write(htmlContent);
+            previewFrame.close();
+            previewMessage.style.display = "none";
+        }
     }
 
-    // Function to generate the link
+    // generate the link
     function generateLink() {
         const htmlContent = document.getElementById('htmlInput').value;
-        const encodedContent = btoa(unescape(encodeURIComponent(htmlContent))); // Encode to base64
-        const link = `${window.location.href.split('?')[0]}?content=${encodedContent}`;
-        document.getElementById('generatedLink').value = link;
+        const linkInput = document.getElementById('generatedLink');
+        const copyLinkBtn = document.getElementById('copyLinkBtn')
+        const linkMessage = document.getElementById('linkMessage');
+
+        if (htmlContent.trim() === "") {
+            linkInput.style.display = "none";
+            copyLinkBtn.style.display = "none";
+            linkMessage.style.display = "block";
+        } else {
+            const encodedContent = btoa(unescape(encodeURIComponent(htmlContent))); // Encode to base64
+            const link = `${window.location.href.split('?')[0]}?content=${encodedContent}`;
+            document.getElementById('generatedLink').value = link;
+            linkInput.style.display = "block";
+            copyLinkBtn.style.display = "block";
+            linkMessage.style.display = "none";
+        }
     }
 
-    // Function to copy the generated link
+    // copy the generated link
     function copyLink() {
         const linkInput = document.getElementById('generatedLink');
         linkInput.select();
         document.execCommand('copy');
     }
 
-    // Function to load content from URL if present
+    // load content from URL if present
     function loadContentFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         const content = urlParams.get('content');
@@ -43,13 +66,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Function to refresh the preview
+    // refresh the preview
     function refreshPreview() {
         showTab('nav-preview');
         updatePreview();
     }
 
-    // Function to clear the input
+    // clear the input
     function clearInput() {
         document.getElementById('htmlInput').value = '';
     }

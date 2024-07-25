@@ -74,3 +74,12 @@ body,p,a,h1,h2,h3,h4,h5,h6,strong,input,textarea{
 #generatedLink {
     width: 100%;
 }
+#previewMessage,#linkMessage{
+    display: none;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.428571429;
+    color: #333;
+}

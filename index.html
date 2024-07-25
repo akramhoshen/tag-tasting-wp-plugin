@@ -48,19 +48,20 @@
                     <div class="tab-pane fade show active" id="nav-creative" role="tabpanel" aria-labelledby="nav-creative-tab" tabindex="0">
                         <div class="textarea-container">
                             <button class="clear-button" onclick="clearInput()">Clear</button>
-                            <textarea class="form-control" id="htmlInput" rows="30" title="Macro substitution happens for text marked up as [MACRO] or %%MACRO%% where MACRO stands for any of the following:
-
+                            <textarea class="form-control" id="htmlInput" rows="30" 
+                            title="Macro substitution happens for text marked up as [MACRO] or %%MACRO%% where MACRO stands for any of the following:
                             1> RANDOM => a random number for cachebusting                
                             2> CLICK_URL => null string to prevent invalid URLs   
-                            3> IS_PREVIEW => 1 to prevent services like DV or IAS from blocking the ad 
-                         
-                         " placeholder="Paste an HTML ad tag, an MRAID 2.0 tag, a VAST tag or a URL that returns VAST."></textarea>
+                            3> IS_PREVIEW => 1 to prevent services like DV or IAS from blocking the ad" 
+                            placeholder="Paste an HTML ad tag, an MRAID 2.0 tag, a VAST tag or a URL that returns VAST."></textarea>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-preview-tab" tabindex="0">
+                        <p id="previewMessage">Nothing to show</p>
                         <iframe id="previewFrame"></iframe>
                     </div>
                     <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab" tabindex="0">
+                        <p id="linkMessage">Link cannot be generated without a creative</p>
                         <input type="text" id="generatedLink" readonly>
                         <button id="copyLinkBtn">Copy Link</button>
                     </div>
