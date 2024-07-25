@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Tag Testing System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab" onclick="showTab('creative')">Creative</button>
+        <button class="tab" onclick="showTab('preview')">Preview</button>
+        <button class="tab" onclick="showTab('link')">Link</button>
+    </div>
+    <div id="creative" class="tab-content">
+        <textarea id="htmlInput" placeholder="Write your HTML and CSS here..."></textarea>
+    </div>
+    <div id="preview" class="tab-content">
+        <iframe id="previewFrame"></iframe>
+    </div>
+    <div id="link" class="tab-content">
+        <input type="text" id="generatedLink" readonly>
+        <button onclick="copyLink()">Copy Link</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
