@@ -14,6 +14,10 @@ body {
     border-bottom: none;
 }
 
+.tab.refresh {
+    margin-left: auto; /* Push the refresh button to the right */
+}
+
 .tab-content {
     display: none;
     border: 1px solid #ccc;

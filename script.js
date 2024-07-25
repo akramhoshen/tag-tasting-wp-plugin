@@ -44,4 +44,9 @@ function loadContentFromURL() {
     }
 }
 
+function refreshPreview() {
+    showTab('preview');
+    updatePreview();
+}
+
 window.onload = loadContentFromURL;
