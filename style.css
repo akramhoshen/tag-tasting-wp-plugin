@@ -30,10 +30,10 @@ body,p,a,h1,h2,h3,h4,h5,h6,strong,input,textarea{
     text-transform: uppercase!important;
     height: 30px;
 }
-.textarea-container {
+.textarea-container,.copylink-container {
     position: relative;
 }
-.clear-button {
+.clear-button,#copyLinkBtn {
     float: right;
     display: block;
     position: absolute;
@@ -51,13 +51,20 @@ body,p,a,h1,h2,h3,h4,h5,h6,strong,input,textarea{
     color: #fff;
     background-color: #ac2925;
 }
-#htmlInput {
+#copyLinkBtn:hover {
+    color: #fff;
+    background-color: #027de7;
+}
+#htmlInput,#generatedLink {
     margin-top: 10px;
     padding: 5px;
     background-color: #f5f5f5;
     border: none;
     border-top: 1px solid #dee2e6;
     border-radius: 0;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333;
 }
 #htmlInput:focus {
     outline: 0;
@@ -76,6 +83,12 @@ body,p,a,h1,h2,h3,h4,h5,h6,strong,input,textarea{
 }
 #generatedLink {
     width: 100%;
+    padding: 5px 5px 95px 5px!important;
+    border: none;
+}
+#generatedLink:focus {
+    border: none;
+    outline: none;
 }
 #previewMessage,#linkMessage{
     display: none;

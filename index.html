@@ -48,7 +48,7 @@
                     <div class="tab-pane fade show active" id="nav-creative" role="tabpanel" aria-labelledby="nav-creative-tab" tabindex="0">
                         <div class="textarea-container">
                             <button class="clear-button" onclick="clearInput()">Clear</button>
-                            <textarea class="form-control" id="htmlInput" rows="25" 
+                            <textarea class="form-control" id="htmlInput" rows="30" 
                             title="Macro substitution happens for text marked up as [MACRO] or %%MACRO%% where MACRO stands for any of the following:
                             1> RANDOM => a random number for cachebusting                
                             2> CLICK_URL => null string to prevent invalid URLs   
@@ -62,8 +62,10 @@
                     </div>
                     <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab" tabindex="0">
                         <p id="linkMessage">Link cannot be generated without a creative</p>
-                        <input type="text" id="generatedLink" readonly>
-                        <button id="copyLinkBtn">Copy Link</button>
+                        <div class="copylink-container">
+                            <input type="text" id="generatedLink" readonly>
+                            <button id="copyLinkBtn">Copy</button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="nav-refresh" role="tabpanel" aria-labelledby="nav-refresh-tab" tabindex="0">Lorem, ipsum.</div>
                   </div>
