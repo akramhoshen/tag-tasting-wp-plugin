@@ -8,18 +8,18 @@ document.addEventListener("DOMContentLoaded", function() {
     // update the preview
     function updatePreview() {
         const htmlContent = document.getElementById('htmlInput').value;
-        const previewFrame = document.getElementById('previewFrame').contentWindow.document;
+        const previewFrame = document.getElementById('previewFrame');
         const previewMessage = document.getElementById('previewMessage');
 
         if (htmlContent.trim() === "") {
-            previewFrame.open();
-            previewFrame.write("");
-            previewFrame.close();
+            previewFrame.style.display = "none";
             previewMessage.style.display = "block";
         } else {
-            previewFrame.open();
-            previewFrame.write(htmlContent);
-            previewFrame.close();
+            previewFrame.style.display = "block";
+            const frameDocument = previewFrame.contentWindow.document;
+            frameDocument.open();
+            frameDocument.write(htmlContent);
+            frameDocument.close();
             previewMessage.style.display = "none";
         }
     }
