@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // generate the link
-    async function generateLink() {
+    function generateLink() {
         const htmlContent = document.getElementById('htmlInput').value;
         const linkInput = document.getElementById('generatedLink');
         const copyLinkBtn = document.getElementById('copyLinkBtn')
@@ -36,23 +36,12 @@ document.addEventListener("DOMContentLoaded", function() {
             copyLinkBtn.style.display = "none";
             linkMessage.style.display = "block";
         } else {
-            try {
-                const response = await fetch('store.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ content: htmlContent })
-                });
-                const data = await response.json();
-                const link = `${window.location.href.split('?')[0]}?content=${data.id}`;
-                document.getElementById('generatedLink').value = link;
-                linkInput.style.display = "block";
-                copyLinkBtn.style.display = "block";
-                linkMessage.style.display = "none";
-            } catch (error) {
-                console.error('Error storing content:', error);
-            }
+            const encodedContent = btoa(unescape(encodeURIComponent(htmlContent))); // Encode to base64
+            const link = `${window.location.href.split('?')[0]}?content=${encodedContent}`;
+            document.getElementById('generatedLink').value = link;
+            linkInput.style.display = "block";
+            copyLinkBtn.style.display = "block";
+            linkMessage.style.display = "none";
         }
     }
 
@@ -64,23 +53,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // load content from URL if present
-    async function loadContentFromURL() {
+    function loadContentFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        const contentId = urlParams.get('content');
-        if (contentId) {
-            try {
-                const response = await fetch(`retrieve.php?content=${contentId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('htmlInput').value = data.content;
-                    showTab('nav-preview');
-                    updatePreview();
-                } else {
-                    console.error('Content not found');
-                }
-            } catch (error) {
-                console.error('Error retrieving content:', error);
-            }
+        const content = urlParams.get('content');
+        if (content) {
+            const decodedContent = decodeURIComponent(escape(atob(content))); // Decode from base64
+            document.getElementById('htmlInput').value = decodedContent;
+            showTab('nav-preview');
+            updatePreview();
         } else {
             showTab('nav-creative');
         }
