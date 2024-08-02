@@ -6,22 +6,97 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // update the preview
+    // function updatePreview() {
+    //     const htmlContent = document.getElementById('htmlInput').value;
+    //     const previewFrame = document.getElementById('previewFrame');
+    //     const previewMessage = document.getElementById('previewMessage');
+
+    //     if (htmlContent.trim() === "") {
+    //         previewFrame.style.display = "none";
+    //         previewMessage.style.display = "block";
+    //     } else {
+    //         previewFrame.style.display = "block";
+    //         const frameDocument = previewFrame.contentWindow.document;
+    //         frameDocument.open();
+    //         frameDocument.write(htmlContent);
+    //         frameDocument.close();
+    //         previewMessage.style.display = "none";
+    //     }
+    // }
+
     function updatePreview() {
         const htmlContent = document.getElementById('htmlInput').value;
         const previewFrame = document.getElementById('previewFrame');
         const previewMessage = document.getElementById('previewMessage');
+        const videoContainer = document.getElementById('ad-video');
+        const adCompleteMessage = document.getElementById('adCompleteMessage');
 
         if (htmlContent.trim() === "") {
             previewFrame.style.display = "none";
             previewMessage.style.display = "block";
+            videoContainer.style.display = "none";
         } else {
             previewFrame.style.display = "block";
-            const frameDocument = previewFrame.contentWindow.document;
-            frameDocument.open();
-            frameDocument.write(htmlContent);
-            frameDocument.close();
-            previewMessage.style.display = "none";
+            videoContainer.style.display = "none";
+            adCompleteMessage.style.display = "none";
+
+            if (htmlContent.startsWith("http")) {
+                // Assuming it's a VAST tag URL
+                loadVideo(htmlContent);
+            } else {
+                const frameDocument = previewFrame.contentWindow.document;
+                frameDocument.open();
+                frameDocument.write(htmlContent);
+                frameDocument.close();
+                previewMessage.style.display = "none";
+            }
         }
+    }
+
+    // Load video ads using Google IMA SDK
+    function loadVideo(vastUrl) {
+        const videoContainer = document.getElementById('ad-video');
+        const adCompleteMessage = document.getElementById('adCompleteMessage');
+        videoContainer.style.display = 'block';
+
+        var adDisplayContainer = new google.ima.AdDisplayContainer(
+            document.getElementById('preVid'), 
+            document.createElement('video')
+        );
+
+        adDisplayContainer.initialize();
+
+        var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+        adsLoader.addEventListener(
+            google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+            function(e) {
+                var adsManager = e.getAdsManager();
+
+                adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
+                    adCompleteMessage.style.display = 'block';
+                });
+
+                adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, function(e) {
+                    console.error('Ad Error:', e.getError());
+                });
+
+                try {
+                    adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+                    adsManager.start();
+                } catch (e) {
+                    console.error('Ad could not be started.');
+                }
+            },
+            false
+        );
+
+        var adsRequest = new google.ima.AdsRequest();
+        adsRequest.adTagUrl = vastUrl;
+
+        adsRequest.linearAdSlotWidth = 640;
+        adsRequest.linearAdSlotHeight = 360;
+
+        adsLoader.requestAds(adsRequest);
     }
 
     // generate the link

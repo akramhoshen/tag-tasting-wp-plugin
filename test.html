@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #ad-preview {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+</head>
+<body>
+
+    <h1>Ad Tester</h1>
+    <label for="ad-input">Paste your ad tag or HTML content below:</label>
+    <textarea id="ad-input"></textarea>
+    <br>
+    <button onclick="previewAd()">Preview Ad</button>
+
+    <div id="ad-preview">
+        <h2>Ad Preview</h2>
+        <div id="ad-content"></div>
+        <div id="ad-video" style="display: none;">
+            <div id="preVid"></div>
+        </div>
+    </div>
+
+    <script>
+        function previewAd() {
+            var content = document.getElementById("ad-input").value;
+            var previewContainer = document.getElementById("ad-content");
+            var videoContainer = document.getElementById("ad-video");
+            previewContainer.innerHTML = '';
+            videoContainer.style.display = 'none';
+
+            if (content.startsWith("http")) {
+                // Assuming it's a VAST tag URL
+                loadVideo(content);
+            } else {
+                // Render as HTML content
+                var iframe = document.createElement("iframe");
+                iframe.srcdoc = content;
+                previewContainer.appendChild(iframe);
+            }
+        }
+
+        function loadVideo(vastUrl) {
+            var videoContainer = document.getElementById("ad-video");
+            videoContainer.style.display = 'block';
+            
+            var adDisplayContainer = new google.ima.AdDisplayContainer(
+                document.getElementById('preVid'), 
+                document.createElement('video')
+            );
+
+            adDisplayContainer.initialize();
+
+            var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+            adsLoader.addEventListener(
+                google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+                function(event) {
+                    var adsManager = event.getAdsManager();
+
+                    adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+                    adsManager.start();
+                },
+                false
+            );
+
+            var adsRequest = new google.ima.AdsRequest();
+            adsRequest.adTagUrl = vastUrl;
+
+            adsRequest.linearAdSlotWidth = 640;
+            adsRequest.linearAdSlotHeight = 360;
+
+            adsLoader.requestAds(adsRequest);
+        }
+    </script>
+
+</body>
+</html>
