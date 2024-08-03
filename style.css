@@ -90,7 +90,7 @@ body,p,a,h1,h2,h3,h4,h5,h6,strong,input,textarea{
     border: none;
     outline: none;
 }
-#previewMessage,#linkMessage{
+#previewMessage,#linkMessage,#adCompleteMessage{
     display: none;
     padding: 9.5px;
     margin: 0 0 10px;

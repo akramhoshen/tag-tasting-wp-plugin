@@ -41,6 +41,8 @@ document.addEventListener("DOMContentLoaded", function() {
             adCompleteMessage.style.display = "none";
 
             if (htmlContent.startsWith("http")) {
+                previewFrame.style.display = "none";
+                previewMessage.style.display = "none";
                 // Assuming it's a VAST tag URL
                 loadVideo(htmlContent);
             } else {
